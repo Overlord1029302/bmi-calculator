@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BMI Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <style>
+        body {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background: #fff;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h2 {
+            color: #4facfe;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 8px rgba(79, 172, 254, 0.5);
+            outline: none;
+        }
+
+        button {
+            background-color: #4facfe;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #00c6ff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        #results {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #4facfe;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #results.show {
+            opacity: 1;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                width: 40%;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                width: 30%;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h2>Check Your BMI</h2>
+        <p>Enter your weight and height below to calculate your BMI</p>
+        <form>
+            <input id="weight" type="number" placeholder="Weight in KG" min="0" required />
+            <input id="height" type="number" placeholder="Height in CM" min="0" required />
+            <button type="button" onclick="calculate()">Calculate BMI</button>
+        </form>
+        <div id="results">Your BMI results will appear here</div>
+    </div>
+
+    <script>
+        function calculate() {
+            const weight = parseFloat(document.getElementById("weight").value);
+            const height = parseFloat(document.getElementById("height").value);
+            const results = document.getElementById("results");
+
+            if (!weight || weight <= 0 || !height || height <= 0) {
+                results.textContent = "Please enter valid positive values for weight and height.";
+                results.classList.add("show");
+                return;
+            }
+
+            const heightInMeters = height / 100;
+            const bmi = (weight / (heightInMeters * heightInMeters)).toFixed(1);
+
+            let message;
+            if (bmi <= 18.4) {
+                message = `Your BMI is ${bmi}, which means you are Underweight.`;
+            } else if (bmi >= 18.5 && bmi <= 24.9) {
+                message = `Your BMI is ${bmi}, which means you are Normal.`;
+            } else if (bmi >= 25 && bmi <= 29.9) {
+                message = `Your BMI is ${bmi}, which means you are Overweight.`;
+            } else {
+                message = `Your BMI is ${bmi}, which means you are Obese.`;
+            }
+
+            results.textContent = message;
+            results.classList.add("show");
+        }
+    </script>
+</body>
+</html>
